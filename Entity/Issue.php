@@ -504,8 +504,10 @@ class Issue extends ExtendIssue
      */
     public function prePersist()
     {
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+        $date = new \DateTime();
+
+        $this->setCreatedAt($date)
+            ->setUpdatedAt($date);
     }
 
     /**
@@ -513,7 +515,9 @@ class Issue extends ExtendIssue
      */
     public function preUpdate()
     {
-        $this->updatedAt = new \DateTime();
+        $date = new \DateTime();
+
+        $this->setUpdatedAt($date);
     }
 
     /**

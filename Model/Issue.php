@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\BtsBundle\Model;
 
-use Btc\Bundle\BugTrackerBundle\Entity\Issue as Entity;
+use Oro\Bundle\BtsBundle\Entity\Issue as Entity;
 
 class Issue
 {
@@ -25,6 +25,6 @@ class Issue
      */
     public function getCode()
     {
-        return sprintf('%s - %d', $this->entity->getOrganisation()->getName(), $this->entity->getId());
+        return sprintf('%s - %d', $this->entity->getOrganization()->getName(), $this->entity->getId());
     }
 }
