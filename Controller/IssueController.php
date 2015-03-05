@@ -59,9 +59,45 @@ class IssueController extends Controller
     }
 
     /**
+     * @Route("/{id}/subtask/add", name="oro_bts_issue_add_subtask")
+     * @Template("OroBundleBtsBundle:Issue:update.html.twig")
+     * @Acl(id="oro_bts_issue_add_subtask", type="entity", permission="EDIT", class="OroBundleBtsBundle:Issue")
+     *
+     * @param Issue $issue
+     */
+    public function addSubtaskAction(Issue $entity)
+    {
+        if (!$entity->getModel()->isStory()) {
+            return $this->redirect($this->generateUrl('oro_bts_issue_view', array('id' => $entity->getId())));
+        }
+
+        $user = $this->container->get("security.context")->getToken()->getUser();
+
+        $issue = new Issue();
+        $issue->setParent($entity);
+        $issue->setReporter($user);
+        $issue->setOwner($user);
+        $issue->setOrganization($entity->getOrganization());
+
+        $type = $this->getDoctrine()
+            ->getRepository('OroBundleBtsBundle:IssueType')
+            ->findOneByName(IssueType::SUBTASK);
+        $issue->setType($type);
+
+        $priority = $this->getDoctrine()
+            ->getRepository('OroBundleBtsBundle:IssuePriority')
+            ->findOneByName(IssuePriority::MAJOR);
+        $issue->setPriority($priority);
+
+        return $this->update($issue);
+    }
+
+    /**
      * @Route("/info/{id}", name="oro_bts_issue_info", requirements={"id"="\d+"})
      * @Template()
      * @AclAncestor("oro_bts_view")
+     *
+     * @param Issue $issue
      */
     public function infoAction(Issue $issue)
     {
@@ -74,6 +110,8 @@ class IssueController extends Controller
      * @Route("/view/{id}", name="oro_bts_issue_view")
      * @Template
      * @Acl(id="oro_bts_issue_view", type="entity", permission="VIEW", class="OroBundleBtsBundle:Issue")
+     *
+     * @param Issue $issue
      */
     public function viewAction(Issue $entity)
     {
@@ -86,6 +124,8 @@ class IssueController extends Controller
      * @Route("/update/{id}", name="oro_bts_issue_update")
      * @Template("OroBundleBtsBundle:Issue:update.html.twig")
      * @Acl(id="oro_bts_issue_update", type="entity", permission="EDIT", class="OroBundleBtsBundle:Issue")
+     *
+     * @param Issue $issue
      */
     public function updateAction(Issue $entity)
     {
@@ -95,7 +135,7 @@ class IssueController extends Controller
     /**
      *  Update handler
      *
-     * @param Issue $contact
+     * @param Issue $entity
      */
     protected function update(Issue $entity = null)
     {

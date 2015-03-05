@@ -33,15 +33,31 @@ class IssueType extends AbstractType
                 'class'    => 'Oro\Bundle\BtsBundle\Entity\IssuePriority',
                 'property' => 'label',
                 'label'    => 'oro.bts.issue.form.priority.label'
-            ))->add('type', 'entity', array(
-                'class'         => 'Oro\Bundle\BtsBundle\Entity\IssueType',
-                'property'      => 'label',
-                'label'         => 'oro.bts.issue.form.type.label'
             ))->add('owner', 'oro_user_select', array(
                 'required' => true,
-                'label' => 'oro.bts.issue.form.assignee.label',
+                'label'    => 'oro.bts.issue.form.assignee.label',
             )
         );
+
+        $formModifier = function(FormEvent $event) {
+            $issue = $event->getData();
+            $form  = $event->getForm();
+
+            if ($issue instanceof Issue) {
+                if (!$issue->getModel()->isSubtask() && !$issue->getModel()->isStory()) {
+                    $form->add('type', 'entity', array(
+                        'class'         => 'Oro\Bundle\BtsBundle\Entity\IssueType',
+                        'property'      => 'label',
+                        'label'         => 'oro.bts.issue.form.type.label',
+                        'query_builder' => function (IssueTypeRepository $em) {
+                            return $em->loadTypesWithoutSubtaskQueryBuilder();
+                        },
+                    ));
+                }
+            }
+        };
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, $formModifier);
     }
 
     /**
@@ -51,7 +67,7 @@ class IssueType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'Oro\Bundle\BtsBundle\Entity\Issue'
+                'data_class' => 'Oro\Bundle\BtsBundle\Entity\Issue',
             )
         );
     }

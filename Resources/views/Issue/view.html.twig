@@ -7,17 +7,17 @@
 {% oro_title_set({params : {"%issue.code%": code} }) %}
 
 {% block navButtons %}
+    {% if entity.model.isStory() %}
+        {{ UI.button({
+            'path' : path('oro_bts_issue_add_subtask', { 'id': entity.id }),
+            'label': 'oro.bts.issue.view.add_subtask_label'|trans
+            })
+        }}
+    {% endif %}
     {% if resource_granted('EDIT', entity) %}
         {{ UI.editButton({
             'path' : path('oro_bts_issue_update', { 'id': entity.id }),
             'entity_label': 'oro.bts.issue.entity_label'|trans
-            })
-        }}
-    {% endif %}
-    {% if entity.type == constant('Oro\\Bundle\\BtsBundle\\Entity\\IssueType::STORY') %}
-        {{ UI.button({
-            'path' : path('oro_bts_issue_add_child', { 'id': entity.id }),
-            'label': 'oro.bts.issue.view.add_child_label'|trans
             })
         }}
     {% endif %}
@@ -75,6 +75,18 @@
         }
     ] %}
 
+    {% if entity.model.isStory() %}
+        {% set subtasksBlock = [
+            {
+                'title': 'Subtasks'|trans,
+                'class': 'active',
+                'subblocks': [
+                    {'data' : [dataGrid.renderGrid('subtask-grid', {'parent_id': entity.id})] }
+                ]
+            }
+        ] %}
+        {% set dataBlocks = dataBlocks|merge(subtasksBlock) %}
+    {% endif %}
 
     {% set id = 'issueView' %}
     {% set data = {'dataBlocks': dataBlocks} %}

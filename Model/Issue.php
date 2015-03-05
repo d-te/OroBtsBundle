@@ -3,6 +3,7 @@
 namespace Oro\Bundle\BtsBundle\Model;
 
 use Oro\Bundle\BtsBundle\Entity\Issue as Entity;
+use Oro\Bundle\BtsBundle\Entity\IssueType;
 
 class Issue
 {
@@ -30,9 +31,29 @@ class Issue
     }
 
     /**
+     * Check is issue is a strory
+     *
+     * @return bool
+     */
+    public function isStory()
+    {
+        return null !== $this->entity->getType() && IssueType::STORY === $this->entity->getType()->getName();
+    }
+
+    /**
+     * Check is issue is a subtask
+     *
+     * @return bool
+     */
+    public function isSubtask()
+    {
+        return null !== $this->entity->getType() && IssueType::SUBTASK === $this->entity->getType()->getName();
+    }
+
+    /**
      * Check if issue can be deleted
      *
-     * @return  Boolean
+     * @return  bool
      */
     public function isDeletable()
     {

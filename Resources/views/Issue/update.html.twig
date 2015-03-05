@@ -12,7 +12,7 @@
 {% set formAction = form.vars.value.id
     ? path('oro_bts_issue_update', { 'id': form.vars.value.id })
     : ( form.vars.value.parent
-        ? path('oro_bts_issue_add_child', { 'id': form.vars.value.parent.id })
+        ? path('oro_bts_issue_add_subtask', { 'id': form.vars.value.parent.id })
         : path('oro_bts_issue_create')
     )
 %}
@@ -78,7 +78,7 @@
         {
             'title': '',
             'data': [
-                form_row(form.type),
+                (entity.model.isSubtask() or entity.model.isStory()) ? '' : form_row(form.type),
                 form_row(form.summary),
                 form_row(form.priority),
                 form_row(form.description),
