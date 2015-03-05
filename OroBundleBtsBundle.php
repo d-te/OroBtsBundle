@@ -4,6 +4,6 @@ namespace Oro\Bundle\BtsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class OroBtsBundle extends Bundle
+class OroBundleBtsBundle extends Bundle
 {
 }
