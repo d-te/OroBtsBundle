@@ -1,0 +1,88 @@
+oro:
+  bts:
+        menu:
+            shortcut_create_issue.label: Create new issue
+            shortcut_create_issue.description: Create new issue
+        issue:
+            form:
+                code.label: Issue code
+                title.label: Create Issue Form
+                reporter.label: Reporter
+                assignee.label: Assignee
+                type.label: Issue type
+                priority.label: Issue priority
+                description.label: Issue description
+                summary.label: Issue summary
+                related_issue.label: Related issues
+                saved.message: Issue saved succesfully!
+                resolution.label: Resolution
+            entity_bc_title: ': Issue summary'
+            entity_label: Issue
+            entity_plural_label: Issues
+            assignee.label: Assignee
+            children.label: Child Issue
+            code.label: Code
+            collaborators.label: Issue collaborators
+            created_at.label: Created
+            description.label: Descriptions
+            id.label: Id
+            notes.label: Issue notes
+            parent.label: Parent
+            create.label: Create issue
+
+            view:
+                title_label: Issue information
+                parent_label: Parent issue
+                info_label: General information
+                add_child_label: Add Sub Task
+
+            priority:
+                entity_label: Priority
+                label: Priority
+                label.label: Label
+                id.label: Id
+                name.label: Name
+                order.label: Order
+
+            reporter.label: Reporter
+
+            resolution:
+                entity_label: Resolution
+                label: Resolution
+                label.label: Label
+                id.label: Id
+                name.label: Name
+                order.label: Order
+
+            status.label: Status
+            summary.label: Summary
+            tags.label: Tags
+
+            type:
+                entity_label: Type
+                label: Type
+                label.label: Label
+                id.label: Id
+                name.label: Name
+                order.label: Order
+
+            updated_at.label: Updated
+
+            status:
+                entity_label: Status
+                label: Status
+                label.label: Label
+                id.label: Id
+                name.label: Name
+                order.label: Order
+
+            workflow_item:
+                label: Status item
+
+            workflow_step:
+                label: Status step
+
+            organization.label: Organization
+            owner.label: Assignee
+
+'Item not deleted cause': 'Only closed issue with closed child can be deleted.'

@@ -1,0 +1,46 @@
+{% import 'OroUIBundle::macros.html.twig' as ui %}
+{% import 'OroTagBundle::macros.html.twig' as tag %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+<div class="widget-content">
+    <div class="row-fluid form-horizontal">
+        <div class="responsive-block">
+            {% if entity.parent %}
+                {% set parent_code = entity.parent.organization.name ~ '-' ~ entity.parent.id %}
+                {{ ui.renderHtmlProperty('oro.bts.issue.view.parent_label'|trans, ui.link({'path':path('oro_bts_issue_view', {'id': entity.parent.id}), 'label':parent_code})) }}
+            {% endif %}
+
+            {{ ui.renderProperty('oro.bts.issue.type.label'|trans, entity.type.label) }}
+            {{ ui.renderProperty('oro.bts.issue.priority.label'|trans, entity.priority.label) }}
+            {{ ui.renderProperty('oro.bts.issue.resolution.label'|trans, entity.resolution ? entity.resolution.label : 'N/A') }}
+            {{ ui.renderProperty('oro.bts.issue.created_at.label'|trans, entity.createdAt|oro_format_datetime) }}
+            {{ ui.renderProperty('oro.bts.issue.updated_at.label'|trans, entity.updatedAt|oro_format_datetime) }}
+
+            {% set reporter_label = entity.reporter|oro_format_name %}
+            {% if resource_granted('VIEW', entity.reporter) %}
+                {% set reporter_label = ui.link({'path':path('oro_user_view', {'id': entity.reporter.id}), 'label': entity.reporter|oro_format_name})%}
+            {% endif %}
+
+            {{ ui.renderHtmlProperty('oro.bts.issue.reporter.label'|trans, reporter_label) }}
+
+            {% set assignee_label = entity.owner|oro_format_name %}
+            {% if resource_granted('VIEW', entity.owner) %}
+                {% set assignee_label = ui.link({'path':path('oro_user_view', {'id': entity.owner.id}), 'label': entity.owner|oro_format_name})%}
+            {% endif %}
+
+            {{ ui.renderHtmlProperty('oro.bts.issue.assignee.label'|trans, assignee_label) }}
+        </div>
+
+        <div class="responsive-block">
+            {{ entityConfig.renderDynamicFields(entity) }}
+        </div>
+
+        <div class="responsive-block">
+            {{ ui.renderHtmlProperty('oro.bts.issue.summary.label'|trans, entity.summary) }}
+            {{ ui.renderHtmlProperty('oro.bts.issue.description.label'|trans, entity.description) }}
+            {{ entityConfig.renderDynamicFields(entity) }}
+        </div>
+
+    </div>
+</div>

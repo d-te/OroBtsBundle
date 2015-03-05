@@ -21,10 +21,25 @@ class Issue
 
     /**
      * Get code
+     *
      * @return string
      */
     public function getCode()
     {
         return sprintf('%s - %d', $this->entity->getOrganization()->getName(), $this->entity->getId());
+    }
+
+    /**
+     * Check if issue can be deleted
+     *
+     * @return  Boolean
+     */
+    public function isDeletable()
+    {
+        $isDeletable = true;
+
+        //TODO to be  implemented in Workflow
+        return $isDeletable;
+
     }
 }

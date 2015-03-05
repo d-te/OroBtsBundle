@@ -1,0 +1,12 @@
+Oro\Bundle\BtsBundle\Entity\Issue:
+    properties:
+        summary:
+            - NotBlank:     ~
+            - Length:
+                min:        3
+                max:        255
+        description:
+            - Length:
+                max:        255
+        owner:
+            - NotBlank:     ~

@@ -1,0 +1,144 @@
+datagrid:
+    issue_grid:
+        extended_entity_name: %oro_bts.issue.entity.class%
+        acl_resource: oro_bts_issue_view
+        source:
+            type: orm
+            query:
+                select:
+                    - issue.id as id
+                    - issue.summary as summary
+                    - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as reporter_username
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as assignee_username
+                    - CONCAT(organization.name, CONCAT('-', issue.id)) as code
+                    - resolution.label as resolution_label
+                    - resolution.order as resolution_order
+                    - priority.label as priority_label
+                    - priority.order as priority_order
+                    - type.label as type_label
+                    - type.order as type_order
+                    - issue.createdAt as created
+                    - issue.updatedAt as updated
+                from:
+                    - { table: %oro_bts.issue.entity.class%, alias: issue }
+                join:
+                    left:
+                        - { join: issue.owner, alias: assignee }
+                        - { join: issue.organization, alias: organization }
+                        - { join: issue.resolution, alias: resolution }
+                        - { join: issue.priority, alias: priority }
+                        - { join: issue.reporter, alias: reporter }
+                        - { join: issue.type, alias: type }
+        columns:
+            code:
+                label:         oro.bts.issue.code.label
+            summary:
+                label:         oro.bts.issue.summary.label
+            type_label:
+                label:         oro.bts.issue.type.label
+            priority_label:
+                label:         oro.bts.issue.priority.label
+            resolution_label:
+                label:         oro.bts.issue.resolution.label
+            assignee_username:
+                label:         oro.bts.issue.assignee.label
+            reporter_username:
+                label:         oro.bts.issue.reporter.label
+            created:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updated:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+        sorters:
+            columns:
+                code:
+                    data_name: code
+                reporter_username:
+                    data_name: reporter_username
+                assignee_username:
+                    data_name: assignee_username
+                type_label:
+                    data_name: type_order
+                resolution_label:
+                    data_name: resolution_order
+                priority_label:
+                    data_name: priority_order
+                created:
+                    data_name: created
+                updated:
+                    data_name: updated
+            default:
+                updated: DESC
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oro_bts_issue_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      oro_bts_issue_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      oro_bts_api_delete_issue
+                params:     [ id ]
+        actions:
+            view:
+                acl_resource:  oro_bts_issue_view
+                type:          navigate
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                acl_resource:  oro_bts_issue_update
+                type:          navigate
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                acl_resource:  oro_bts_issue_update
+                type:          delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
+        filters:
+            columns:
+                code:
+                    type:       string
+                    data_name:  code
+                summary:
+                    type:       string
+                    data_name:  summary
+                reporter_username:
+                    type:      string
+                    data_name: reporter_username
+                assignee_username:
+                    type:      string
+                    data_name: assignee_username
+                type_label:
+                    type:      entity
+                    data_name: type
+                    options:
+                        field_type: entity
+                        field_options:
+                            class: %oro_bts.issue.type.entity.class%
+                            property: label
+                priority_label:
+                    type:      entity
+                    data_name: priority
+                    options:
+                        field_type: entity
+                        field_options:
+                            class: %oro_bts.issue.priority.entity.class%
+                            property: label
+                resolution_label:
+                    type:      entity
+                    data_name: resolution
+                    options:
+                        field_type: entity
+                        field_options:
+                            class: %oro_bts.issue.resolution.entity.class%
+                            property: label

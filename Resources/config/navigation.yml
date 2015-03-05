@@ -1,0 +1,33 @@
+oro_menu_config:
+    items:
+        issue_list:
+            label: 'oro.bts.issue.entity_plural_label'
+            route: 'oro_bts_issue_index'
+            extras:
+                position: 15
+                routes: ['oro_bts_issue_*']
+                description: 'oro.bts.menu.issue_list.description'
+
+        shortcut_create_issue:
+            label: 'oro.bts.menu.shortcut_create_issue.label'
+            route: 'oro_bts_issue_create'
+            extras:
+                description: 'oro.bts.menu.shortcut_create_issue.description'
+                isCustomAction: true
+
+    tree:
+        application_menu:
+            children:
+                activities_tab:
+                    children:
+                        issue_list: ~
+
+        shortcuts:
+            children:
+                shortcut_create_issue: ~
+
+oro_titles:
+    oro_bts_issue_index: ~
+    oro_bts_issue_view:   '%%issue.code%%'
+    oro_bts_issue_create: 'Create Issue'
+    oro_bts_issue_update: '%%issue.code%% - Edit'

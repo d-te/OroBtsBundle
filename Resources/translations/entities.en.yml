@@ -1,0 +1,19 @@
+issue:
+    priority:
+        trivial:  Trivial
+        minor:    Minor
+        major:    Major
+        critical: Critical
+        blocker:  Blocker
+    resolution:
+        fixed:            Fixed
+        duplicate:        Duplicate
+        wont_fix:         Won't fix
+        incomplete:       Incomplete
+        cant_reproduce:   Can't reproduce
+        work_as_designed: Work as designed
+    type:
+        bug:     Bug
+        task:    Task
+        story:   Story
+        subtask: Sub Task
