@@ -15,8 +15,8 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 /**
  * IssueType
  *
- * @ORM\Table(name="oro_issue_type")
- * @ORM\Entity
+ * @ORM\Table(name="oro_bts_type")
+ * @ORM\Entity(repositoryClass="Oro\Bundle\BtsBundle\Entity\Repository\IssueTypeRepository")
  * @Gedmo\TranslationEntity(class="Oro\Bundle\BtsBundle\Entity\IssueTypeTranslation")
  * @Config(
  *      defaultValues={

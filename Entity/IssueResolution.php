@@ -15,7 +15,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 /**
  * IssueResolution
  *
- * @ORM\Table(name="oro_issue_resolution")
+ * @ORM\Table(name="oro_bts_resolution")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="Oro\Bundle\BtsBundle\Entity\IssueResolutionTranslation")
  * @Config(

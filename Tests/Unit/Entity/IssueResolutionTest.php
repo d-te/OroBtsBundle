@@ -38,4 +38,17 @@ class IssueResolutionTest extends \PHPUnit_Framework_TestCase
         $entity->setOrder(10);
         $this->assertEquals(10, $entity->getOrder());
     }
+
+    public function testToString()
+    {
+        $entity = $this->getMockBuilder('Oro\Bundle\BtsBundle\Entity\IssueResolution')
+            ->setMethods(array('getLabel'))
+            ->getMock();
+        $entity
+            ->expects($this->once())
+            ->method('getLabel')
+            ->will($this->returnValue('Label'));
+
+        $this->assertEquals('Label', (string)$entity);
+    }
 }

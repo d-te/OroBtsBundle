@@ -27,6 +27,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          "entity"={
  *              "icon"="icon-linux"
  *          },
+ *          "security"={
+ *              "type"="ACL"
+ *          },
  *         "ownership"={
  *              "owner_type"="USER",
  *              "owner_field_name"="owner",
@@ -81,14 +84,14 @@ class Issue extends ExtendIssue
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime", nullable=false)
+     * @ORM\Column(name="createdAt", type="datetime", nullable=false)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated", type="datetime", nullable=false)
+     * @ORM\Column(name="updatedAt", type="datetime", nullable=false)
      */
     private $updatedAt;
 

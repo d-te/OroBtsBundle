@@ -41,7 +41,6 @@ class OroBtsBundle implements Migration
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['length' => 255]);
         $table->addColumn('label', 'string', ['length' => 255]);
-        $table->addColumn('locale', 'string', ['length' => 8]);
         $table->addColumn('order', 'integer', []);
 
         $table->setPrimaryKey(['id']);
@@ -82,7 +81,6 @@ class OroBtsBundle implements Migration
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['length' => 255]);
         $table->addColumn('label', 'string', ['length' => 255]);
-        $table->addColumn('locale', 'string', ['length' => 8]);
         $table->addColumn('order', 'integer', []);
 
         $table->setPrimaryKey(['id']);
@@ -123,7 +121,6 @@ class OroBtsBundle implements Migration
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['length' => 255]);
         $table->addColumn('label', 'string', ['length' => 255]);
-        $table->addColumn('locale', 'string', ['length' => 8]);
         $table->addColumn('order', 'integer', []);
 
         $table->setPrimaryKey(['id']);

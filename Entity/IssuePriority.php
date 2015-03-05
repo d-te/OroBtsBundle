@@ -15,7 +15,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 /**
  * IssuePriority
  *
- * @ORM\Table(name="oro_issue_priority")
+ * @ORM\Table(name="oro_bts_priority")
  * @ORM\Entity
  * @Gedmo\TranslationEntity(class="Oro\Bundle\BtsBundle\Entity\IssuePriorityTranslation")
  * @Config(
