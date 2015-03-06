@@ -120,7 +120,7 @@ datagrid:
                     data_name: assignee_username
                 type_label:
                     type:      entity
-                    data_name: type
+                    data_name: type.id
                     options:
                         field_type: entity
                         field_options:
@@ -128,7 +128,7 @@ datagrid:
                             property: label
                 priority_label:
                     type:      entity
-                    data_name: priority
+                    data_name: priority.id
                     options:
                         field_type: entity
                         field_options:
@@ -136,7 +136,7 @@ datagrid:
                             property: label
                 resolution_label:
                     type:      entity
-                    data_name: resolution
+                    data_name: resolution.id
                     options:
                         field_type: entity
                         field_options:
@@ -270,7 +270,7 @@ datagrid:
                     data_name: assignee_username
                 type_label:
                     type:      entity
-                    data_name: type
+                    data_name: type.id
                     options:
                         field_type: entity
                         field_options:
@@ -278,7 +278,7 @@ datagrid:
                             property: label
                 priority_label:
                     type:      entity
-                    data_name: priority
+                    data_name: priority.id
                     options:
                         field_type: entity
                         field_options:
@@ -286,7 +286,7 @@ datagrid:
                             property: label
                 resolution_label:
                     type:      entity
-                    data_name: resolution
+                    data_name: resolution.id
                     options:
                         field_type: entity
                         field_options:
