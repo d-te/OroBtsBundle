@@ -16,7 +16,6 @@ oro:
                 priority.label:                       Issue priority
                 related_issue.label:                  Related issues
                 resolution.label:                     Resolution
-            entity_bc_title:                          ': Issue summary'
             entity_label:                             Issue
             entity_plural_label:                      Issues
             create.label:                             Create issue

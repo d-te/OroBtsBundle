@@ -8,6 +8,9 @@ use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 
 use Oro\Bundle\BtsBundle\Entity\IssueType;
 
+/**
+ * @codeCoverageIgnore
+ */
 class LoadIssueTypeData extends AbstractTranslatableEntityFixture
 {
     const PREFIX = 'issue.type';

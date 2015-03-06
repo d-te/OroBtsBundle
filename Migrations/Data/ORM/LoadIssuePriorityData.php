@@ -8,6 +8,9 @@ use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 
 use Oro\Bundle\BtsBundle\Entity\IssuePriority;
 
+/**
+ * @codeCoverageIgnore
+ */
 class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
 {
     const PREFIX = 'issue.priority';

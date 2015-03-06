@@ -47,7 +47,7 @@
             'entity': entity,
             'indexPath': path('oro_bts_issue_index'),
             'indexLabel': 'oro.bts.issue.entity_plural_label'|trans,
-            'entityTitle': code ~ 'oro.bts.issue.entity_bc_title'|trans
+            'entityTitle': code ~ ' : ' ~ entity.summary|trans
         }
     %}
     {{ parent() }}
