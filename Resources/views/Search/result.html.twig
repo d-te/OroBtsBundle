@@ -1,0 +1,19 @@
+{% extends 'OroSearchBundle:Search:searchResultItem.html.twig' %}
+
+{% set recordUrl = indexer_item.recordUrl %}
+{% set title = entity ? entity.code ~ " " ~ entity.summary : indexer_item.title %}
+
+{% set entityType = 'oro.bts.issue.entity_label'|trans %}
+{% set showImage = false %}
+{% set image = null %}
+
+{% set entityInfo = [
+    {'title': 'oro.bts.issue.type.entity_label'|trans, 'value': entity.type.label},
+    {'title': 'oro.bts.issue.priority.entity_label'|trans, 'value': entity.priority.label},
+    {'title': 'oro.bts.issue.resolution.entity_label'|trans, 'value': entity.resolution ? entity.resolution.label : 'N/A'},
+    {'title': 'oro.bts.issue.reporter.label'|trans, 'value': entity.reporter},
+    {'title': 'oro.bts.issue.assignee.label'|trans, 'value': entity.owner},
+    {'title': 'oro.ui.created_at'|trans, 'value': entity.createdAt ? entity.createdAt|oro_format_datetime : 'N/A'},
+    {'title': 'oro.ui.updated_at'|trans, 'value': entity.updatedAt ? entity.updatedAt|oro_format_datetime : 'N/A'},
+  ]
+%}
