@@ -7,7 +7,7 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
 
 /**
  * @ORM\Table(name="oro_bts_resolution_translation", indexes={
- *      @ORM\Index(name="oro_bts_resolution_translation_idx", columns={"locale", "object_class", "field", "foreign_key"})
+ *     @ORM\Index(name="oro_bts_resolution_translation_idx", columns={"locale", "object_class", "field", "foreign_key"})
  * })
  * @ORM\Entity(repositoryClass="Gedmo\Translatable\Entity\Repository\TranslationRepository")
  */

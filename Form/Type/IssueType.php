@@ -36,29 +36,28 @@ class IssueType extends AbstractType
             ))->add('owner', 'oro_user_select', array(
                 'required' => true,
                 'label'    => 'oro.bts.issue.form.assignee.label',
-            ))->add('tags', 'oro_tag_select',  array(
+            ))->add('tags', 'oro_tag_select', array(
                 'label' => 'oro.tag.entity_plural_label'
-            )
-        );
+            ));
 
 
-        $formModifier = function(FormEvent $event) {
-            $issue = $event->getData();
-            $form  = $event->getForm();
+            $formModifier = function(FormEvent $event) {
+                $issue = $event->getData();
+                $form  = $event->getForm();
 
-            if ($issue instanceof Issue) {
-                if (!$issue->getModel()->isSubtask() && !$issue->getModel()->isStory()) {
-                    $form->add('type', 'entity', array(
-                        'class'         => 'Oro\Bundle\BtsBundle\Entity\IssueType',
-                        'property'      => 'label',
-                        'label'         => 'oro.bts.issue.form.type.label',
-                        'query_builder' => function (IssueTypeRepository $em) {
-                            return $em->loadTypesWithoutSubtaskQueryBuilder();
-                        },
-                    ));
+                if ($issue instanceof Issue) {
+                    if (!$issue->getModel()->isSubtask() && !$issue->getModel()->isStory()) {
+                        $form->add('type', 'entity', array(
+                            'class'         => 'Oro\Bundle\BtsBundle\Entity\IssueType',
+                            'property'      => 'label',
+                            'label'         => 'oro.bts.issue.form.type.label',
+                            'query_builder' => function (IssueTypeRepository $em) {
+                                return $em->loadTypesWithoutSubtaskQueryBuilder();
+                            },
+                        ));
+                    }
                 }
-            }
-        };
+            };
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, $formModifier);
     }
