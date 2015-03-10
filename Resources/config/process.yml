@@ -1,0 +1,21 @@
+definitions:
+    resolve_issue_note_created:
+        label: 'Set issue updatedAt on adding a new note'
+        enabled: true
+        entity:  Oro\Bundle\NoteBundle\Entity\Note
+        actions_configuration:
+            - @call_method:
+                object: $.data
+                attribute: $.isIssue
+                method: supportTarget
+                method_parameters: ['Issue']
+            - @create_datetime:
+                condition:
+                    @true: $.isIssue
+                attribute: $.data.target.updatedAt
+
+triggers:
+    resolve_issue_note_created:
+        -
+            event: create
+            queued: false
