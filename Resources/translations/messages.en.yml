@@ -32,6 +32,7 @@ oro:
             updated_at.label:                         Updated
             children.label:                           Subtasks
             parent.label:                             Parent story
+            collaborators.label:                      Issue Collaborator
             priority:
                 entity_label:                         Priority
                 label:                                Priority
@@ -66,5 +67,6 @@ oro:
                 parent_label:                         Parent story
                 info_label:                           General information
                 add_subtask_label:                    Add Subtask
+                collaborators.title:                  Issue Collaborators
 
 'Item not deleted cause':                            'Only closed issue with closed subtasks can be deleted.'

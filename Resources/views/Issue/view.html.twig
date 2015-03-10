@@ -88,6 +88,17 @@
         {% set dataBlocks = dataBlocks|merge(subtasksBlock) %}
     {% endif %}
 
+    {% set collaboratorsBlocks = [
+        {
+            'title': 'oro.bts.issue.view.collaborators.title'|trans,
+            'class': 'active',
+            'subblocks': [
+                {'data' : [dataGrid.renderGrid('collaborators-grid', {'issue_id': entity.id})] },
+            ]
+        }
+    ] %}
+    {% set dataBlocks = dataBlocks|merge(collaboratorsBlocks) %}
+
     {% set id = 'issueView' %}
     {% set data = {'dataBlocks': dataBlocks} %}
     {{ parent() }}

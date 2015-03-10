@@ -512,7 +512,9 @@ class Issue extends ExtendIssue implements Taggable
      */
     public function addCollaborator(User $user)
     {
-        $this->collaborators->add($user);
+        if (!$this->hasCollaborator($user)) {
+            $this->collaborators->add($user);
+        }
 
         return $this;
     }
@@ -608,7 +610,9 @@ class Issue extends ExtendIssue implements Taggable
         $date = new \DateTime();
 
         $this->setCreatedAt($date)
-            ->setUpdatedAt($date);
+            ->setUpdatedAt($date)
+            ->addCollaborator($this->getOwner())
+            ->addCollaborator($this->getReporter());
     }
 
     /**
@@ -618,7 +622,8 @@ class Issue extends ExtendIssue implements Taggable
     {
         $date = new \DateTime();
 
-        $this->setUpdatedAt($date);
+        $this->setUpdatedAt($date)
+            ->addCollaborator($this->getOwner());
     }
 
     /**

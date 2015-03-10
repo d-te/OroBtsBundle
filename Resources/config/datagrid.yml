@@ -326,3 +326,44 @@ datagrid:
                         field_type: oro_workflow_step_select
                         field_options:
                             workflow_entity_class: %oro_bts.issue.entity.class%
+    collaborators-grid:
+        source:
+            type: orm
+            acl_resource: oro_bts_issue_view
+            query:
+                select:
+                    - collaborators.id as id
+                    - CONCAT(collaborators.firstName, CONCAT(' ', collaborators.lastName)) as collaborator
+                from:
+                    - { table: %oro_bts.issue.entity.class%, alias: issue }
+                join:
+                    left:
+                        - { join: issue.collaborators , alias: collaborators }
+                where:
+                    and:
+                        - issue.id = :issue_id
+            bind_parameters:
+                - issue_id
+        columns:
+            collaborator:
+                label:         oro.bts.issue.collaborators.label
+            step:
+                renderable: false
+        sorters:
+            columns:
+                collaborator:
+                    data_name: collaborator
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oro_user_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  oro_bts_issue_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
