@@ -9,6 +9,7 @@
 
 {% set entityInfo = [
     {'title': 'oro.bts.issue.type.entity_label'|trans, 'value': entity.type.label},
+    {'title': 'oro.bts.issue.status.entity_label'|trans, 'value': entity.workflowStep ? entity.workflowStep.label : 'N/A'},
     {'title': 'oro.bts.issue.priority.entity_label'|trans, 'value': entity.priority.label},
     {'title': 'oro.bts.issue.resolution.entity_label'|trans, 'value': entity.resolution ? entity.resolution.label : 'N/A'},
     {'title': 'oro.bts.issue.reporter.label'|trans, 'value': entity.reporter},
