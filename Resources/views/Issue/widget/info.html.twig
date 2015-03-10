@@ -12,6 +12,7 @@
             {% endif %}
 
             {{ ui.renderProperty('oro.bts.issue.type.label'|trans, entity.type.label) }}
+            {{ ui.renderProperty('oro.bts.issue.status.label'|trans, entity.workflowStep ? entity.workflowStep.label : 'N/A') }}
             {{ ui.renderProperty('oro.bts.issue.priority.label'|trans, entity.priority.label) }}
             {{ ui.renderProperty('oro.bts.issue.resolution.label'|trans, entity.resolution ? entity.resolution.label : 'N/A') }}
             {{ ui.renderProperty('oro.bts.issue.created_at.label'|trans, entity.createdAt|oro_format_datetime) }}

@@ -1,0 +1,98 @@
+workflows:
+    oro_bts_issue_flow:
+        label: 'Issue Status Workflow'
+        entity: Oro\Bundle\BtsBundle\Entity\Issue
+        entity_attribute: issue
+        start_step: opened
+        steps_display_ordered: true
+
+        steps:
+            opened:
+                label: 'Open'
+                order: 10
+                allowed_transitions:
+                    - start
+                    - resolve
+                    - close
+            inprogress:
+                label: 'In progress'
+                order: 20
+                allowed_transitions:
+                   - stop
+                   - resolve
+                   - close
+            resolved:
+                label: 'Resolved'
+                order: 30
+                allowed_transitions:
+                   - reopen
+                   - close
+            closed:
+                label: 'Closed'
+                order: 40
+                allowed_transitions:
+                   - reopen
+
+        attributes:
+            issue_resolution:
+                label: 'Resolution'
+                type: entity
+                options:
+                    class: Oro\Bundle\BtsBundle\Entity\IssueResolution
+
+        transitions:
+            stop:
+                label: 'Stop progress'
+                step_to: opened
+                transition_definition: stop_definition
+            start:
+                label: 'Start progress'
+                step_to: inprogress
+                transition_definition: start_definition
+            resolve:
+                label: 'Resolve'
+                step_to: resolved
+                transition_definition: resolve_definition
+                form_options:
+                    attribute_fields:
+                        issue_resolution:
+                            form_type: entity
+                            options:
+                                class: Oro\Bundle\BtsBundle\Entity\IssueResolution
+                                property: label
+                                required: true
+            close:
+                label: 'Close'
+                step_to: closed
+                transition_definition: close_definition
+                form_options:
+                    attribute_fields:
+                        issue_resolution:
+                            form_type: entity
+                            options:
+                                class: Oro\Bundle\BtsBundle\Entity\IssueResolution
+                                property: label
+                                required: true
+            reopen:
+                label: 'Reopen'
+                step_to: opened
+                transition_definition: reopen_definition
+
+        transition_definitions:
+            stop_definition: []
+            start_definition: []
+            resolve_definition:
+                post_actions:
+                    - @call_method:
+                        object: $issue
+                        method: setResolution
+                        method_parameters:
+                            [$issue_resolution]
+            close_definition:
+                post_actions:
+                    - @call_method:
+                        object: $issue
+                        method: setResolution
+                        method_parameters:
+                            [$issue_resolution]
+            reopen_definition: []

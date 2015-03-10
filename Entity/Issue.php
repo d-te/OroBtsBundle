@@ -11,11 +11,14 @@ use JMS\Serializer\Annotation as JMS;
 
 use Oro\Bundle\BtsBundle\Model\ExtendIssue;
 use Oro\Bundle\BtsBundle\Model\Issue as Model;
+
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
 
 /**
  * Issue
@@ -37,6 +40,10 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "owner_column_name"="owner_id",
  *              "organization_field_name"="organization",
  *              "organization_column_name"="organization_id"
+ *          },
+ *          "workflow"={
+ *              "active_workflow"="oro_bts_issue_flow",
+ *              "show_step_in_grid"=false
  *          }
  *      }
  * )
@@ -178,6 +185,22 @@ class Issue extends ExtendIssue implements Taggable
      * )
      */
     protected $tags;
+
+    /**
+     * @var WorkflowItem
+     *
+     * @ORM\OneToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowItem")
+     * @ORM\JoinColumn(name="workflow_item_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $workflowItem;
+
+    /**
+     * @var WorkflowStep
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowStep")
+     * @ORM\JoinColumn(name="workflow_step_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $workflowStep;
 
     /**
      * Constructor
@@ -539,6 +562,42 @@ class Issue extends ExtendIssue implements Taggable
     {
         $this->tags = $tags;
         return $this;
+    }
+
+    /**
+     * @param WorkflowItem $workflowStep
+     * @return Issue
+     */
+    public function setWorkflowStep($workflowStep)
+    {
+        $this->workflowStep = $workflowStep;
+        return $this;
+    }
+
+    /**
+     * @return WorkflowStep
+     */
+    public function getWorkflowStep()
+    {
+        return $this->workflowStep;
+    }
+
+    /**
+     * @param WorkflowItem $workflowItem
+     * @return Issue
+     */
+    public function setWorkflowItem($workflowItem)
+    {
+        $this->workflowItem = $workflowItem;
+        return $this;
+    }
+
+    /**
+     * @return WorkflowItem
+     */
+    public function getWorkflowItem()
+    {
+        return $this->workflowItem;
     }
 
     /**

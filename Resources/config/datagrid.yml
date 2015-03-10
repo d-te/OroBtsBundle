@@ -19,6 +19,8 @@ datagrid:
                     - type.order as type_order
                     - issue.createdAt as created
                     - issue.updatedAt as updated
+                    - workflow_step.label as status_label
+                    - workflow_step.stepOrder as status_order
                 from:
                     - { table: %oro_bts.issue.entity.class%, alias: issue }
                 join:
@@ -29,6 +31,7 @@ datagrid:
                         - { join: issue.priority, alias: priority }
                         - { join: issue.reporter, alias: reporter }
                         - { join: issue.type, alias: type }
+                        - { join: issue.workflowStep, alias: workflow_step }
         columns:
             code:
                 label:         oro.bts.issue.code.label
@@ -36,6 +39,8 @@ datagrid:
                 label:         oro.bts.issue.summary.label
             type_label:
                 label:         oro.bts.issue.type.label
+            status_label:
+                label:         oro.bts.issue.status.entity_label
             priority_label:
                 label:         oro.bts.issue.priority.label
             resolution_label:
@@ -50,6 +55,8 @@ datagrid:
             updated:
                 label:         oro.ui.updated_at
                 frontend_type: datetime
+            step:
+                renderable: false
         sorters:
             columns:
                 code:
@@ -64,6 +71,8 @@ datagrid:
                     data_name: resolution_order
                 priority_label:
                     data_name: priority_order
+                status_label:
+                    data_name: status_order
                 created:
                     data_name: created
                 updated:
@@ -142,6 +151,14 @@ datagrid:
                         field_options:
                             class: %oro_bts.issue.resolution.entity.class%
                             property: label
+                status_label:
+                    type:       entity
+                    data_name:  workflow_step.id
+                    options:
+                        field_type: oro_workflow_step_select
+                        field_options:
+                            workflow_entity_class: %oro_bts.issue.entity.class%
+
     subtask-grid:
         extended_entity_name: %oro_bts.issue.entity.class%
         options:
@@ -164,6 +181,8 @@ datagrid:
                     - type.order as type_order
                     - issue.createdAt as created
                     - issue.updatedAt as updated
+                    - workflow_step.label as status_label
+                    - workflow_step.stepOrder as status_order
                 from:
                     - { table: %oro_bts.issue.entity.class%, alias: issue }
                 join:
@@ -174,6 +193,7 @@ datagrid:
                         - { join: issue.priority, alias: priority }
                         - { join: issue.reporter, alias: reporter }
                         - { join: issue.type, alias: type }
+                        - { join: issue.workflowStep, alias: workflow_step }
                 where:
                     and:
                         - issue.parent = :parent_id
@@ -186,6 +206,8 @@ datagrid:
                 label:         oro.bts.issue.summary.label
             type_label:
                 label:         oro.bts.issue.type.label
+            status_label:
+                label:         oro.bts.issue.status.entity_label
             priority_label:
                 label:         oro.bts.issue.priority.label
             resolution_label:
@@ -200,6 +222,9 @@ datagrid:
             updated:
                 label:         oro.ui.updated_at
                 frontend_type: datetime
+            step:
+                renderable: false
+
         sorters:
             columns:
                 code:
@@ -214,6 +239,8 @@ datagrid:
                     data_name: resolution_order
                 priority_label:
                     data_name: priority_order
+                status_label:
+                    data_name: status_order
                 created:
                     data_name: created
                 updated:
@@ -292,3 +319,10 @@ datagrid:
                         field_options:
                             class: %oro_bts.issue.resolution.entity.class%
                             property: label
+                status_label:
+                    type:       entity
+                    data_name:  workflow_step.id
+                    options:
+                        field_type: oro_workflow_step_select
+                        field_options:
+                            workflow_entity_class: %oro_bts.issue.entity.class%
