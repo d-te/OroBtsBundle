@@ -4,6 +4,7 @@ namespace Oro\Bundle\BtsBundle\Model;
 
 use Oro\Bundle\BtsBundle\Entity\Issue as Entity;
 use Oro\Bundle\BtsBundle\Entity\IssueType;
+use Oro\Bundle\BtsBundle\Entity\IssueWorkflowStep;
 
 class Issue
 {
@@ -59,8 +60,18 @@ class Issue
     {
         $isDeletable = true;
 
-        //TODO to be  implemented in Workflow
-        return $isDeletable;
+        if (IssueWorkflowStep::CLOSED !== $this->entity->getWorkflowStep()->getName()) {
+            $isDeletable = false;
+        } else {
+            $children = $this->entity->getChildren();
+            foreach ($children as $child) {
+                if (IssueWorkflowStep::CLOSED !== $child->getWorkflowStep()->getName()) {
+                    $isDeletable = false;
+                    break;
+                }
+            }
+        }
 
+        return $isDeletable;
     }
 }
