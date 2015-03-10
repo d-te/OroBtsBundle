@@ -33,6 +33,8 @@ services:
             - @oro_bts.form.issue
             - @request
             - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }
 
     oro_bts.form.api.issue:
         class:           Symfony\Component\Form\Form
@@ -50,6 +52,8 @@ services:
             - @oro_bts.form.api.issue
             - @request
             - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }
 
     oro_bts.issue_manager.api:
         class: %oro_bts.manager.api.class%

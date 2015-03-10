@@ -36,8 +36,11 @@ class IssueType extends AbstractType
             ))->add('owner', 'oro_user_select', array(
                 'required' => true,
                 'label'    => 'oro.bts.issue.form.assignee.label',
+            ))->add('tags', 'oro_tag_select',  array(
+                'label' => 'oro.tag.entity_plural_label'
             )
         );
+
 
         $formModifier = function(FormEvent $event) {
             $issue = $event->getData();

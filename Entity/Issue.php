@@ -14,6 +14,7 @@ use Oro\Bundle\BtsBundle\Model\Issue as Model;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
@@ -41,7 +42,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  * )
  * @JMS\ExclusionPolicy("ALL")
  */
-class Issue extends ExtendIssue
+class Issue extends ExtendIssue implements Taggable
 {
     /**
      * @var integer
@@ -165,6 +166,18 @@ class Issue extends ExtendIssue
      * )
      */
     private $collaborators;
+
+    /**
+     * @var ArrayCollection $tags
+     * @ConfigField(
+     *      defaultValues={
+     *          "merge"={
+     *              "display"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $tags;
 
     /**
      * Constructor
@@ -500,6 +513,32 @@ class Issue extends ExtendIssue
     public function hasCollaborator(User $user)
     {
         return $this->collaborators->contains($user);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaggableId()
+    {
+        return $this->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTags()
+    {
+        $this->tags = $this->tags ?: new ArrayCollection();
+        return $this->tags;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+        return $this;
     }
 
     /**
