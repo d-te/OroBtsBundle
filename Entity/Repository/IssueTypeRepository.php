@@ -15,7 +15,7 @@ class IssueTypeRepository extends EntityRepository
      */
     public function loadTypesWithoutSubtask()
     {
-        return $this->findByMemberQueryBuilder()->getQuery()->getResult();
+        return $this->loadTypesWithoutSubtaskQueryBuilder()->getQuery()->getResult();
     }
 
     /**
