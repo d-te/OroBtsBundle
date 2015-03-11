@@ -39,23 +39,7 @@ class IssueController extends Controller
      */
     public function createAction()
     {
-        $entity = new Issue();
-
-        $user = $this->container->get("security.context")->getToken()->getUser();
-        $entity->setReporter($user);
-        $entity->setOwner($user);
-
-        $type = $this->getDoctrine()
-            ->getRepository('OroBundleBtsBundle:IssueType')
-            ->findOneByName(IssueType::TASK);
-        $entity->setType($type);
-
-        $priority = $this->getDoctrine()
-            ->getRepository('OroBundleBtsBundle:IssuePriority')
-            ->findOneByName(IssuePriority::MAJOR);
-        $entity->setPriority($priority);
-
-        return $this->update($entity);
+        return $this->update();
     }
 
     /**
@@ -139,6 +123,23 @@ class IssueController extends Controller
      */
     protected function update(Issue $entity = null)
     {
+        if (!$entity) {
+            $entity = new Issue();
+
+            $user = $this->container->get("security.context")->getToken()->getUser();
+            $entity->setOwner($user);
+
+            $type = $this->getDoctrine()
+                ->getRepository('OroBundleBtsBundle:IssueType')
+                ->findOneByName(IssueType::TASK);
+            $entity->setType($type);
+
+            $priority = $this->getDoctrine()
+                ->getRepository('OroBundleBtsBundle:IssuePriority')
+                ->findOneByName(IssuePriority::MAJOR);
+            $entity->setPriority($priority);
+        }
+
         return $this->get('oro_form.model.update_handler')->handleUpdate(
             $entity,
             $this->get('oro_bts.form.issue'),

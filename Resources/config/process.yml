@@ -1,4 +1,30 @@
 definitions:
+    resolve_issue_create:
+        label: 'Set issue reporter and collaborators'
+        enabled: true
+        entity:  Oro\Bundle\BtsBundle\Entity\Issue
+        actions_configuration:
+            - @assign_active_user:
+                parameters:
+                    attribute: $.data.reporter
+            - @call_method:
+                object: $.data
+                method: addCollaborator
+                method_parameters: [$reporter]
+            - @call_method:
+                object: $.data
+                method: addCollaborator
+                method_parameters: [$owner]
+    resolve_issue_update:
+        label: 'Set issue collaborators'
+        enabled: true
+        entity:  Oro\Bundle\BtsBundle\Entity\Issue
+        actions_configuration:
+            - @call_method:
+                object: $.data
+                method: addCollaborator
+                method_parameters: [$owner]
+
     resolve_issue_note_created:
         label: 'Set issue updatedAt on adding a new note'
         enabled: true
@@ -21,7 +47,18 @@ definitions:
                 method_parameters: [$owner]
 
 triggers:
+    resolve_issue_create:
+        -
+            event:  create
+            queued: false
+
+    resolve_issue_update:
+        -
+            event:  update
+            field:  owner
+            queued: false
+
     resolve_issue_note_created:
         -
-            event: create
+            event:  create
             queued: false

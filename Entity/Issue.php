@@ -610,9 +610,7 @@ class Issue extends ExtendIssue implements Taggable
         $date = new \DateTime();
 
         $this->setCreatedAt($date)
-            ->setUpdatedAt($date)
-            ->addCollaborator($this->getOwner())
-            ->addCollaborator($this->getReporter());
+            ->setUpdatedAt($date);
     }
 
     /**
@@ -622,8 +620,7 @@ class Issue extends ExtendIssue implements Taggable
     {
         $date = new \DateTime();
 
-        $this->setUpdatedAt($date)
-            ->addCollaborator($this->getOwner());
+        $this->setUpdatedAt($date);
     }
 
     /**
