@@ -36,6 +36,15 @@ services:
         tags:
             - { name: oro_tag.tag_manager }
 
+    oro_bts.form.type.api.issue:
+        class:           %oro_bts.issue.form.type.api.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+        tags:
+            - { name: form.type, alias: issue }
+
     oro_bts.form.api.issue:
         class:           Symfony\Component\Form\Form
         factory_method:  createNamed

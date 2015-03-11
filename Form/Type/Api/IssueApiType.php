@@ -27,8 +27,8 @@ class IssueApiType extends IssueType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'Oro\Bundle\BtsBundle\Entity\Issue',
-                'intention'  => 'issue',
+                'data_class'      => 'Oro\Bundle\BtsBundle\Entity\Issue',
+                'intention'       => 'issue',
                 'csrf_protection' => false,
             )
         );
