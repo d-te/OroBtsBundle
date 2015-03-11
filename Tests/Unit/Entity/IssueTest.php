@@ -2,12 +2,16 @@
 
 namespace Oro\Bundle\BtsBundle\Tests\Unit\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 use Oro\Bundle\BtsBundle\Entity\Issue;
 use Oro\Bundle\BtsBundle\Entity\IssueType;
 use Oro\Bundle\BtsBundle\Entity\IssuePriority;
 use Oro\Bundle\BtsBundle\Entity\IssueResolution;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
 
 class IssueTest extends \PHPUnit_Framework_TestCase
 {
@@ -128,6 +132,37 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $parent = new Issue();
         $entity->setParent($parent);
         $this->assertEquals($parent, $entity->getParent());
+    }
+
+    public function testWorkflowStepSetterGetter()
+    {
+        $entity = new Issue();
+        $this->assertNull($entity->getWorkflowStep());
+        $step = new WorkflowStep();
+        $entity->setWorkflowStep($step);
+        $this->assertEquals($step, $entity->getWorkflowStep());
+    }
+
+    public function testWorkflowItemSetterGetter()
+    {
+        $entity = new Issue();
+        $this->assertNull($entity->getWorkflowItem());
+        $item = new WorkflowItem();
+        $entity->setWorkflowItem($item);
+        $this->assertEquals($item, $entity->getWorkflowItem());
+    }
+
+    public function testTagsSetterGetter()
+    {
+        $entity = new Issue();
+        $this->assertTrue($entity->getTags() instanceof ArrayCollection);
+        $this->assertCount(0, $entity->getTags());
+        $tags = new ArrayCollection();
+        $tags->add('tag1');
+        $tags->add('tag2');
+        $entity->setTags($tags);
+        $this->assertEquals($tags, $entity->getTags());
+        $this->assertCount(2, $entity->getTags());
     }
 
     public function testChildrenGetter()

@@ -13,4 +13,5 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
 class IssueWorkflowStep extends WorkflowStep
 {
     const CLOSED = 'closed';
+    const OPENED = 'opened';
 }
