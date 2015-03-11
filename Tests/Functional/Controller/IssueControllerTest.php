@@ -6,8 +6,11 @@ use Symfony\Component\DomCrawler\Form;
 
 use Oro\Bundle\BtsBundle\Entity\IssuePriority;
 use Oro\Bundle\BtsBundle\Entity\IssueType;
+use Oro\Bundle\BtsBundle\Entity\IssueResolution;
+use Oro\Bundle\BtsBundle\Entity\IssueWorkflowStep;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
 
 /**
  * @outputBuffering enabled
@@ -20,6 +23,11 @@ class IssueControllerTest extends WebTestCase
      */
     private $em;
 
+    /**
+     * @var WorkflowManager
+     */
+    protected $workflowManager;
+
     protected function setUp()
     {
         $this->initClient(
@@ -27,7 +35,8 @@ class IssueControllerTest extends WebTestCase
             array_merge($this->generateBasicAuthHeader(), array('HTTP_X-CSRF-Header' => 1))
         );
 
-        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->em              = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->workflowManager = static::$kernel->getContainer()->get('oro_workflow.manager');
     }
 
     public function testIndex()
@@ -123,6 +132,10 @@ class IssueControllerTest extends WebTestCase
      */
     public function testDelete($id)
     {
+        //Transit Issue to 'closed' state
+        $this->closeIssue($id);
+
+        //delete Issue
         $this->client->request(
             'DELETE',
             $this->getUrl('oro_bts_api_delete_issue', array('id' => $id))
@@ -229,6 +242,8 @@ class IssueControllerTest extends WebTestCase
         $this->assertRegExp("/Oro-". $subtaskId."/", $crawler->html());
 
         /*Delete subtask*/
+        $this->closeIssue($subtaskId);
+
         $this->client->request(
             'DELETE',
             $this->getUrl('oro_bts_api_delete_issue', array('id' => $subtaskId))
@@ -246,6 +261,8 @@ class IssueControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 404);
 
         /*Delete story*/
+        $this->closeIssue($id);
+
         $this->client->request(
             'DELETE',
             $this->getUrl('oro_bts_api_delete_issue', array('id' => $id))
@@ -261,5 +278,25 @@ class IssueControllerTest extends WebTestCase
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 404);
+    }
+
+    /**
+     * Transit Issue to CLOSED step
+     * @param  int $id
+     */
+    protected function closeIssue($id)
+    {
+        $issue = $this->em
+            ->getRepository('OroBundleBtsBundle:Issue')
+            ->find($id);
+
+        $resolution = $this->em
+            ->getRepository('OroBundleBtsBundle:IssueResolution')
+            ->findOneByName(IssueResolution::FIXED);
+
+        $workflowItem = $this->workflowManager->getWorkflowItemByEntity($issue);
+        $workflowItem->getData()->set('issue_resolution', $resolution);
+
+        $this->workflowManager->transit($workflowItem, IssueWorkflowStep::CLOSE_TRANSITION);
     }
 }
