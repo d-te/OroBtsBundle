@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\BtsBundle\Tests\Functional;
+namespace Oro\Bundle\BtsBundle\Tests\Functional\Controller;
 
 use Symfony\Component\DomCrawler\Form;
 

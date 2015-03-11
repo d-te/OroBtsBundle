@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\BtsBundle\Tests\Functional\API;
+namespace Oro\Bundle\BtsBundle\Tests\Functional\Controller\API;
 
 use Doctrine\ORM\EntityManager;
 
