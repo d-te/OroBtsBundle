@@ -1,0 +1,45 @@
+parameters:
+    oro_bts.importexport.template_fixture.issue.class: Oro\Bundle\BtsBundle\ImportExport\TemplateFixture\IssueFixture
+
+services:
+    # Converter
+    oro_bts.importexport.data_converter.issue:
+        parent: oro_importexport.data_converter.configurable
+
+    oro_bts.importexport.template_fixture.data_converter.issue:
+        parent: oro_importexport.data_converter.template_fixture.configurable
+
+    oro_bts.importexport.template_fixture.issue:
+        class: %oro_bts.importexport.template_fixture.issue.class%
+        tags:
+          - { name: oro_importexport.template_fixture }
+
+    # Strategy
+    oro_bts.importexport.strategy.issue.add_or_replace:
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    # Import processor
+    oro_bts.importexport.processor.import.issue:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+          - [setDataConverter, [@oro_bts.importexport.data_converter.issue]]
+          - [setStrategy, [@oro_bts.importexport.strategy.issue.add_or_replace]]
+        tags:
+          - { name: oro_importexport.processor, type: import, entity: %oro_bts.issue.entity.class%, alias: oro_bts_issue }
+          - { name: oro_importexport.processor, type: import_validation, entity: %oro_bts.issue.entity.class%, alias: oro_bts_issue }
+
+    # Export processor
+    oro_bts.importexport.processor.export.issue:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+          - [ setDataConverter, [@oro_bts.importexport.data_converter.issue]]
+        tags:
+          - { name: oro_importexport.processor, type: export, entity: %oro_bts.issue.entity.class%, alias: oro_bts_issue }
+
+    # Export template
+    oro_bts.importexport.processor.export_template.issue:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+          - [setDataConverter, [@oro_bts.importexport.template_fixture.data_converter.issue]]
+        tags:
+          - { name: oro_importexport.processor, type: export_template, entity: %oro_bts.issue.entity.class%, alias: oro_bts_issue }

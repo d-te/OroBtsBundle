@@ -47,7 +47,6 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  *          }
  *      }
  * )
- * @JMS\ExclusionPolicy("ALL")
  */
 class Issue extends ExtendIssue implements Taggable
 {
@@ -57,6 +56,13 @@ class Issue extends ExtendIssue implements Taggable
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *    defaultValues={
+     *        "importexport"={
+     *            "header"="Id"
+     *        }
+     *    }
+     * )
      */
     private $id;
 
@@ -64,6 +70,13 @@ class Issue extends ExtendIssue implements Taggable
      * @var string
      *
      * @ORM\Column(name="summary", type="string", length=255, nullable=false)
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Summary"
+     *      }
+     *  }
+     * )
      */
     private $summary;
 
@@ -71,6 +84,13 @@ class Issue extends ExtendIssue implements Taggable
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Description"
+     *      }
+     *  }
+     * )
      */
     private $description;
 
@@ -81,11 +101,28 @@ class Issue extends ExtendIssue implements Taggable
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      * })
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Parent",
+     *          "full"=false
+     *      }
+     *  }
+     * )
      */
     private $parent;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     private $children;
 
@@ -93,6 +130,13 @@ class Issue extends ExtendIssue implements Taggable
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false)
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Created at"
+     *      }
+     *  }
+     * )
      */
     private $createdAt;
 
@@ -100,6 +144,13 @@ class Issue extends ExtendIssue implements Taggable
      * @var \DateTime
      *
      * @ORM\Column(name="updatedAt", type="datetime", nullable=false)
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Updated at"
+     *      }
+     *  }
+     * )
      */
     private $updatedAt;
 
@@ -110,6 +161,14 @@ class Issue extends ExtendIssue implements Taggable
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="reporter_id", referencedColumnName="id")
      * })
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Reporter",
+     *          "short" = true
+     *      }
+     *  }
+     * )
      */
     private $reporter;
 
@@ -120,6 +179,14 @@ class Issue extends ExtendIssue implements Taggable
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
      * })
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Organization",
+     *          "full" = false
+     *      }
+     *  }
+     * )
      */
     private $organization;
 
@@ -130,6 +197,14 @@ class Issue extends ExtendIssue implements Taggable
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
      * })
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Assegnee",
+     *          "full" = false
+     *      }
+     *  }
+     * )
      */
     private $owner;
 
@@ -140,6 +215,14 @@ class Issue extends ExtendIssue implements Taggable
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      * })
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Type",
+     *          "full" = false
+     *      }
+     *  }
+     * )
      */
     private $type;
 
@@ -150,6 +233,14 @@ class Issue extends ExtendIssue implements Taggable
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="priority_id", referencedColumnName="id")
      * })
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Priority",
+     *          "full" = false
+     *      }
+     *  }
+     * )
      */
     private $priority;
 
@@ -160,6 +251,14 @@ class Issue extends ExtendIssue implements Taggable
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="resolution_id", referencedColumnName="id")
      * })
+     * @ConfigField(
+     *   defaultValues={
+     *      "importexport"={
+     *          "header"="Resolution",
+     *          "full" = false
+     *      }
+     *   }
+     * )
      */
     private $resolution;
 
@@ -171,17 +270,27 @@ class Issue extends ExtendIssue implements Taggable
      *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      * )
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     private $collaborators;
 
     /**
      * @var ArrayCollection $tags
      * @ConfigField(
-     *      defaultValues={
-     *          "merge"={
-     *              "display"=true
-     *          }
-     *      }
+     *    defaultValues={
+     *        "merge"={
+     *            "display"=true
+     *        },
+     *       "importexport"={
+     *            "header"="Tags"
+     *       }
+     *    }
      * )
      */
     protected $tags;
@@ -191,6 +300,14 @@ class Issue extends ExtendIssue implements Taggable
      *
      * @ORM\OneToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowItem")
      * @ORM\JoinColumn(name="workflow_item_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Item",
+     *          "full"=false
+     *      }
+     *  }
+     * )
      */
     protected $workflowItem;
 
@@ -199,6 +316,14 @@ class Issue extends ExtendIssue implements Taggable
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowStep")
      * @ORM\JoinColumn(name="workflow_step_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "header"="Status",
+     *          "full"=false
+     *      }
+     *  }
+     * )
      */
     protected $workflowStep;
 

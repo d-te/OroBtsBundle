@@ -48,6 +48,13 @@ class IssuePriority implements Translatable
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "identity"=true
+     *      }
+     *  }
+     * )
      */
     private $name;
 
