@@ -10,6 +10,9 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class OroBtsBundle implements Migration, NoteExtensionAwareInterface
 {
     /** @var NoteExtension */
