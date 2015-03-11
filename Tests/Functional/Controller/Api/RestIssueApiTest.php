@@ -2,12 +2,13 @@
 
 namespace Oro\Bundle\BtsBundle\Tests\Functional\Controller\API;
 
-use Doctrine\ORM\EntityManager;
-
 use Oro\Bundle\BtsBundle\Entity\IssuePriority;
+use Oro\Bundle\BtsBundle\Entity\IssueResolution;
 use Oro\Bundle\BtsBundle\Entity\IssueType;
+use Oro\Bundle\BtsBundle\Entity\IssueWorkflowStep;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
 
 /**
  * @outputBuffering enabled
@@ -15,12 +16,22 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class RestIssueApiTest extends WebTestCase
 {
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
+     * @var WorkflowManager
+     */
+    protected $workflowManager;
 
     protected function setUp()
     {
         $this->initClient([], $this->generateWsseAuthHeader());
 
-        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->em              = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->workflowManager = static::$kernel->getContainer()->get('oro_workflow.manager');
     }
 
     /**
@@ -120,6 +131,19 @@ class RestIssueApiTest extends WebTestCase
      */
     public function testDelete($issue)
     {
+        $entity = $this->em
+            ->getRepository('OroBundleBtsBundle:Issue')
+            ->find($issue['id']);
+
+        $resolution = $this->em
+            ->getRepository('OroBundleBtsBundle:IssueResolution')
+            ->findOneByName(IssueResolution::FIXED);
+
+        $workflowItem = $this->workflowManager->getWorkflowItemByEntity($entity);
+        $workflowItem->getData()->set('issue_resolution', $resolution);
+
+        $this->workflowManager->transit($workflowItem, IssueWorkflowStep::CLOSE_TRANSITION);
+
         $this->client->request('DELETE', $this->getUrl('oro_bts_api_delete_issue', ['id' => $issue['id']]));
         $result = $this->client->getResponse();
         $this->assertEmptyResponseStatusCodeEquals($result, 204);
