@@ -11,10 +11,10 @@
                 {{ ui.renderHtmlProperty('oro.bts.issue.view.parent_label'|trans, ui.link({'path':path('oro_bts_issue_view', {'id': entity.parent.id}), 'label':parent_code})) }}
             {% endif %}
 
-            {{ ui.renderProperty('oro.bts.issue.type.label'|trans, entity.type.label) }}
+            {{ ui.renderProperty('oro.bts.issuetype.label'|trans, entity.type.label) }}
             {{ ui.renderProperty('oro.bts.issue.status.label'|trans, entity.workflowStep ? entity.workflowStep.label : 'N/A') }}
-            {{ ui.renderProperty('oro.bts.issue.priority.label'|trans, entity.priority.label) }}
-            {{ ui.renderProperty('oro.bts.issue.resolution.label'|trans, entity.resolution ? entity.resolution.label : 'N/A') }}
+            {{ ui.renderProperty('oro.bts.issuepriority.label'|trans, entity.priority.label) }}
+            {{ ui.renderProperty('oro.bts.issueresolution.label'|trans, entity.resolution ? entity.resolution.label : 'N/A') }}
             {{ ui.renderProperty('oro.bts.issue.created_at.label'|trans, entity.createdAt|oro_format_datetime) }}
             {{ ui.renderProperty('oro.bts.issue.updated_at.label'|trans, entity.updatedAt|oro_format_datetime) }}
 

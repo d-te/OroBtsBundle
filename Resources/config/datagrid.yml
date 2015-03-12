@@ -38,13 +38,13 @@ datagrid:
             summary:
                 label:         oro.bts.issue.summary.label
             type_label:
-                label:         oro.bts.issue.type.label
+                label:         oro.bts.issuetype.label
             status_label:
                 label:         oro.bts.issue.status.entity_label
             priority_label:
-                label:         oro.bts.issue.priority.label
+                label:         oro.bts.issuepriority.label
             resolution_label:
-                label:         oro.bts.issue.resolution.label
+                label:         oro.bts.issueresolution.label
             assignee_username:
                 label:         oro.bts.issue.assignee.label
             reporter_username:

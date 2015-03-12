@@ -33,27 +33,11 @@ oro:
             children.label:                           Subtasks
             parent.label:                             Parent story
             collaborators.label:                      Issue Collaborator
-            priority:
-                entity_label:                         Priority
-                label:                                Priority
-                id.label:                             Id
-                name.label:                           Name
-                label.label:                          Label
-                order.label:                          Order
-            resolution:
-                entity_label:                         Resolution
-                label:                                Resolution
-                id.label:                             Id
-                name.label:                           Name
-                label.label:                          Label
-                order.label:                          Order
-            type:
-                entity_label:                         Type
-                label:                                Type
-                id.label:                             Id
-                name.label:                           Name
-                label.label:                          Label
-                order.label:                          Order
+            priority.label:                           Priority
+            resolution.label:                         Resolution
+            type.label:                               Type
+            workflow_item.label:                      Workflow Item
+            workflow_step.label:                      Workflow Step
             status:
                 entity_label:                         Status
                 label:                                Status
@@ -61,12 +45,33 @@ oro:
                 id.label:                             Id
                 name.label:                           Name
                 order.label:                          Order
-
             view:
                 title_label:                          Issue information
                 parent_label:                         Parent story
                 info_label:                           General information
                 add_subtask_label:                    Add Subtask
                 collaborators.title:                  Issue Collaborators
+
+        issuepriority:
+            entity_label:                         Priority
+            label:                                Priority
+            id.label:                             Id
+            name.label:                           Name
+            label.label:                          Label
+            order.label:                          Order
+        issueresolution:
+            entity_label:                         Resolution
+            label:                                Resolution
+            id.label:                             Id
+            name.label:                           Name
+            label.label:                          Label
+            order.label:                          Order
+        issuetype:
+            entity_label:                         Type
+            label:                                Type
+            id.label:                             Id
+            name.label:                           Name
+            label.label:                          Label
+            order.label:                          Order
 
 'Item not deleted cause':                            'Only closed issue with closed subtasks can be deleted.'
