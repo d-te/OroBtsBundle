@@ -7,6 +7,9 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use Oro\Bundle\DashboardBundle\Migrations\Data\ORM\AbstractDashboardFixture;
 
+/**
+ * @codeCoverageIgnore
+ */
 class LoadIssueDashboardData extends AbstractDashboardFixture implements DependentFixtureInterface
 {
     /**
