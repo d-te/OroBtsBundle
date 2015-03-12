@@ -1,8 +1,13 @@
 oro:
   bts:
         menu:
-            shortcut_create_issue.label:              Create new issue
-            shortcut_create_issue.description:        Create new issue
+            shortcut_create_issue:
+                label:                                Create new issue
+                description:                          Create new issue
+        dashboard:
+            issues_activities:
+                label:                                Issue activities
+                description:                          Current user's issues activities
         issue:
             form:
                 title.label:                          Create Issue Form
@@ -51,27 +56,28 @@ oro:
                 info_label:                           General information
                 add_subtask_label:                    Add Subtask
                 collaborators.title:                  Issue Collaborators
+                all.label:                            View All
 
         issuepriority:
-            entity_label:                         Priority
-            label:                                Priority
-            id.label:                             Id
-            name.label:                           Name
-            label.label:                          Label
-            order.label:                          Order
+            entity_label:                            Priority
+            label:                                   Priority
+            id.label:                                Id
+            name.label:                              Name
+            label.label:                             Label
+            order.label:                             Order
         issueresolution:
-            entity_label:                         Resolution
-            label:                                Resolution
-            id.label:                             Id
-            name.label:                           Name
-            label.label:                          Label
-            order.label:                          Order
+            entity_label:                            Resolution
+            label:                                   Resolution
+            id.label:                                Id
+            name.label:                              Name
+            label.label:                             Label
+            order.label:                             Order
         issuetype:
-            entity_label:                         Type
-            label:                                Type
-            id.label:                             Id
-            name.label:                           Name
-            label.label:                          Label
-            order.label:                          Order
+            entity_label:                            Type
+            label:                                   Type
+            id.label:                                Id
+            name.label:                              Name
+            label.label:                             Label
+            order.label:                             Order
 
 'Item not deleted cause':                            'Only closed issue with closed subtasks can be deleted.'

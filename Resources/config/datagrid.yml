@@ -224,7 +224,6 @@ datagrid:
                 frontend_type: datetime
             step:
                 renderable: false
-
         sorters:
             columns:
                 code:
@@ -367,3 +366,112 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    issue-activities-grid:
+        extended_entity_name: %oro_bts.issue.entity.class%
+        options:
+            entityHint: issue
+        source:
+            type: orm
+            acl_resource: oro_bts_issue_view
+            query:
+                select:
+                    - issue.id as id
+                    - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as reporter_username
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as assignee_username
+                    - CONCAT(organization.name, CONCAT('-', issue.id)) as code
+                    - issue.summary as summary
+                    - type.label as type_label
+                    - type.order as type_order
+                    - resolution.label as resolution_label
+                    - resolution.order as resolution_order
+                    - priority.label as priority_label
+                    - priority.order as priority_order
+                    - issue.createdAt as created
+                    - issue.updatedAt as updated
+                    - workflow_step.label as status_label
+                    - workflow_step.stepOrder as status_order
+                from:
+                    - { table: %oro_bts.issue.entity.class%, alias: issue }
+                join:
+                    left:
+                        - { join: issue.reporter, alias: reporter }
+                        - { join: issue.owner, alias: assignee }
+                        - { join: issue.organization, alias: organization }
+                        - { join: issue.type , alias: type }
+                        - { join: issue.resolution, alias: resolution }
+                        - { join: issue.priority, alias: priority }
+                        - { join: issue.workflowStep, alias: workflow_step }
+                        - { join: issue.collaborators, alias: collaborators }
+                where:
+                    and:
+                        - collaborators.id = :user_id
+            bind_parameters:
+                - user_id
+        columns:
+            code:
+                label:         oro.bts.issue.code.label
+            summary:
+                label:         oro.bts.issue.summary.label
+            type_label:
+                label:         oro.bts.issue.type.label
+            status_label:
+                label:         oro.bts.issue.status.entity_label
+            priority_label:
+                label:         oro.bts.issue.priority.label
+            resolution_label:
+                label:         oro.bts.issue.resolution.label
+            assignee_username:
+                label:         oro.bts.issue.assignee.label
+            reporter_username:
+                label:         oro.bts.issue.reporter.label
+            created:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updated:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+            step:
+                renderable: false
+        sorters:
+            columns:
+                code:
+                    data_name: code
+                reporter_username:
+                    data_name: reporter_username
+                assignee_username:
+                    data_name: assignee_username
+                type_label:
+                    data_name: type_order
+                resolution_label:
+                    data_name: resolution_order
+                priority_label:
+                    data_name: priority_order
+                status_label:
+                    data_name: status_order
+                created:
+                    data_name: created
+                updated:
+                    data_name: updated
+            default:
+                updated: DESC
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oro_bts_issue_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  oro_bts_issue_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+        options:
+            toolbarOptions:
+                hide: true
+                pageSize:
+                    items: [10]
+                    default_per_page: 10
