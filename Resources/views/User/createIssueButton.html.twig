@@ -1,0 +1,25 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{{ UI.clientButton({
+    'dataUrl': path('oro_bts_issue_create', {'owner': entity.id}),
+    'aCss': 'no-hash',
+    'iCss': 'icon-linux',
+    'label': 'oro.bts.issue.create.label'|trans,
+    'widget': {
+        'type': 'dialog',
+        'multiple': false,
+        'refresh-widget-alias': 'user-issues-widget',
+        'reload-grid-name' : 'user-issues-grid',
+        'options': {
+            'alias': 'issue-dialog',
+            'dialogOptions': {
+                'title': 'oro.bts.issue.create.label'|trans,
+                'allowMaximize': true,
+                'allowMinimize': true,
+                'dblclick': 'maximize',
+                'maximizedHeightDecreaseBy': 'minimize-bar',
+                'width': 700
+            }
+        }
+    }
+})
+}}

@@ -12,6 +12,7 @@ use Oro\Bundle\BtsBundle\Entity\IssuePriority;
 use Oro\Bundle\BtsBundle\Entity\IssueType;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\UserBundle\Entity\User;
 
 class IssueController extends Controller
 {
@@ -33,13 +34,15 @@ class IssueController extends Controller
     }
 
     /**
-     * @Route("/create", defaults={"owner" = null}, name="oro_bts_issue_create")
+     * @Route("/create/{owner}", defaults={"owner" = null}, name="oro_bts_issue_create")
      * @Template("OroBundleBtsBundle:Issue:update.html.twig")
      * @Acl(id="oro_bts_issue_create", type="entity", permission="CREATE", class="OroBundleBtsBundle:Issue")
      */
-    public function createAction()
+    public function createAction(User $owner = null)
     {
-        return $this->update();
+        $entity = $this->createEntity(IssueType::TASK, $owner);
+
+        return $this->update($entity);
     }
 
     /**
@@ -49,31 +52,15 @@ class IssueController extends Controller
      *
      * @param Issue $issue
      */
-    public function addSubtaskAction(Issue $entity)
+    public function addSubtaskAction(Issue $parent)
     {
-        if (!$entity->getModel()->isStory()) {
-            return $this->redirect($this->generateUrl('oro_bts_issue_view', array('id' => $entity->getId())));
+        if (!$parent->getModel()->isStory()) {
+            return $this->redirect($this->generateUrl('oro_bts_issue_view', array('id' => $parent->getId())));
         }
 
-        $user = $this->container->get("security.context")->getToken()->getUser();
+        $entity = $this->createEntity(IssueType::SUBTASK, null, $parent);
 
-        $issue = new Issue();
-        $issue->setParent($entity);
-        $issue->setReporter($user);
-        $issue->setOwner($user);
-        $issue->setOrganization($entity->getOrganization());
-
-        $type = $this->getDoctrine()
-            ->getRepository('OroBundleBtsBundle:IssueType')
-            ->findOneByName(IssueType::SUBTASK);
-        $issue->setType($type);
-
-        $priority = $this->getDoctrine()
-            ->getRepository('OroBundleBtsBundle:IssuePriority')
-            ->findOneByName(IssuePriority::MAJOR);
-        $issue->setPriority($priority);
-
-        return $this->update($issue);
+        return $this->update($entity);
     }
 
     /**
@@ -123,40 +110,32 @@ class IssueController extends Controller
      */
     protected function update(Issue $entity = null)
     {
-        if (!$entity) {
-            $entity = new Issue();
+        $saved = false;
+        if ($this->get('oro_bts.form.handler.issue')->process($entity)) {
+            if (!$this->getRequest()->get('_widgetContainer')) {
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    $this->get('translator')->trans('oro.bts.issue.form.saved.message')
+                );
 
-            $user = $this->container->get("security.context")->getToken()->getUser();
-            $entity->setOwner($user);
-
-            $type = $this->getDoctrine()
-                ->getRepository('OroBundleBtsBundle:IssueType')
-                ->findOneByName(IssueType::TASK);
-            $entity->setType($type);
-
-            $priority = $this->getDoctrine()
-                ->getRepository('OroBundleBtsBundle:IssuePriority')
-                ->findOneByName(IssuePriority::MAJOR);
-            $entity->setPriority($priority);
+                return $this->get('oro_ui.router')->redirectAfterSave(
+                    array(
+                        'route' => 'oro_bts_issue_update',
+                        'parameters' => array('id' => $entity->getId()),
+                    ),
+                    array(
+                        'route' => 'oro_bts_issue_view',
+                        'parameters' => array('id' => $entity->getId()),
+                    )
+                );
+            }
+            $saved = true;
         }
 
-        return $this->get('oro_form.model.update_handler')->handleUpdate(
-            $entity,
-            $this->get('oro_bts.form.issue'),
-            function (Issue $entity) {
-                return array(
-                    'route' => 'oro_bts_issue_update',
-                    'parameters' => array('id' => $entity->getId())
-                );
-            },
-            function (Issue $entity) {
-                return array(
-                    'route' => 'oro_bts_issue_view',
-                    'parameters' => array('id' => $entity->getId())
-                );
-            },
-            $this->get('translator')->trans('oro.bts.issue.form.saved.message'),
-            $this->get('oro_bts.form.handler.issue')
+        return array(
+            'entity'     => $entity,
+            'saved'      => $saved,
+            'form'       => $this->get('oro_bts.form.handler.issue')->getForm()->createView(),
         );
     }
 
@@ -198,5 +177,41 @@ class IssueController extends Controller
     public function userIssuesAction($userId)
     {
         return ['userId' => $userId];
+    }
+
+    /**
+     * Create new Issue entity
+     *
+     * @param  string $typeName
+     * @param  User $owner
+     * @return Issue
+     */
+    protected function createEntity($typeName = IssueType::TASK, User $owner = null, Issue $parent = null)
+    {
+        $entity = new Issue();
+
+        if (null === $owner) {
+            $user = $this->container->get("security.context")->getToken()->getUser();
+            $entity->setOwner($user);
+        } else {
+            $entity->setOwner($owner);
+        }
+
+        if (null !== $parent) {
+            $entity->setParent($parent);
+            $entity->setOrganization($parent->getOrganization());
+        }
+
+        $type = $this->getDoctrine()
+            ->getRepository('OroBundleBtsBundle:IssueType')
+            ->findOneByName($typeName);
+        $entity->setType($type);
+
+        $priority = $this->getDoctrine()
+            ->getRepository('OroBundleBtsBundle:IssuePriority')
+            ->findOneByName(IssuePriority::MAJOR);
+        $entity->setPriority($priority);
+
+        return $entity;
     }
 }

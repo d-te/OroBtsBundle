@@ -90,4 +90,14 @@ class IssueHandler implements TagHandlerInterface
     {
         $this->tagManager = $tagManager;
     }
+
+    /**
+     * Get form, that build into handler, via handler service
+     *
+     * @return FormInterface
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
 }
