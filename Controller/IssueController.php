@@ -159,4 +159,35 @@ class IssueController extends Controller
             $this->get('oro_bts.form.handler.issue')
         );
     }
+
+    /**
+     * @Route("/status/chart/{widget}", name="oro_bts_issue_statuses_chart", requirements={"widget"="[\w-]+"})
+     * @Template("OroBundleBtsBundle:Dashboard:statuses_chart.html.twig")
+     *
+     * @param $widget
+     * @return array $widgetAttr
+     */
+    public function chartAction($widget)
+    {
+        $data = $this->getDoctrine()->getRepository('OroBundleBtsBundle:Issue')->loadIssuesGroupedByStatus();
+
+        $widgetAttr = $this->get('oro_dashboard.widget_configs')->getWidgetAttributesForTwig($widget);
+        $widgetAttr['chartView'] = $this->get('oro_chart.view_builder')
+            ->setArrayData($data)
+            ->setOptions(
+                array(
+                    'name' => 'bar_chart',
+                    'data_schema' => array(
+                        'label' => array('field_name' => 'label'),
+                        'value' => array(
+                            'field_name' => 'cnt',
+                        )
+                    )
+                )
+            )
+            ->getView();
+
+        return $widgetAttr;
+    }
+
 }

@@ -6,3 +6,8 @@ oro_dashboard_config:
             route:            oro_dashboard_widget
             route_parameters: { bundle: OroBundleBtsBundle, name: issues_activities}
             acl:              oro_bts_issue_view
+        issues_statuses_chart:
+            label:            oro.bts.dashboard.issues_statuses_chart.label
+            description:      oro.bts.dashboard.issues_statuses_chart.description
+            route:            oro_bts_issue_statuses_chart
+            acl:              oro_bts_issue_view

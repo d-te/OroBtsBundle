@@ -8,6 +8,9 @@ oro:
             issues_activities:
                 label:                                Issue activities
                 description:                          Current user's issues activities
+            issues_statuses_chart:
+                label:                                Issues statuses
+                description:                          Issues statuses chart
         issue:
             form:
                 title.label:                          Create Issue Form

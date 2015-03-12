@@ -24,7 +24,7 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  * Issue
  *
  * @ORM\Table(name="oro_bts_issue")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Oro\Bundle\BtsBundle\Entity\Repository\IssueRepository")
  * @ORM\HasLifecycleCallbacks()
  * @Config(
  *      defaultValues={
