@@ -62,7 +62,7 @@ class Issue
 
         if (IssueWorkflowStep::CLOSED !== $this->entity->getWorkflowStep()->getName()) {
             $isDeletable = false;
-        } else if ($this->isStory()) {
+        } elseif ($this->isStory()) {
             $children = $this->entity->getChildren();
             foreach ($children as $child) {
                 if (IssueWorkflowStep::CLOSED !== $child->getWorkflowStep()->getName()) {

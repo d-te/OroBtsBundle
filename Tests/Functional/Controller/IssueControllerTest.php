@@ -158,13 +158,8 @@ class IssueControllerTest extends WebTestCase
         /*Create story*/
         $crawler = $this->client->request('GET', $this->getUrl('oro_bts_issue_create'));
 
-        $type = $this->em
-            ->getRepository('OroBundleBtsBundle:IssueType')
-            ->findOneByName(IssueType::STORY);
-
-        $priority = $this->em
-            ->getRepository('OroBundleBtsBundle:IssuePriority')
-            ->findOneByName(IssuePriority::MAJOR);
+        $type     = $this->em->getRepository('OroBundleBtsBundle:IssueType')->findOneByName(IssueType::STORY);
+        $priority = $this->em->getRepository('OroBundleBtsBundle:IssuePriority')->findOneByName(IssuePriority::MAJOR);
 
         /** @var Form $form */
         $form = $crawler->selectButton('Save and Close')->form();
@@ -192,13 +187,8 @@ class IssueControllerTest extends WebTestCase
         $result = reset($result['data']);
 
         $id = $result['id'];
-
         /*Create subtask*/
-        $crawler = $this->client->request(
-            'GET',
-            $this->getUrl('oro_bts_issue_add_subtask', array('id' => $id))
-        );
-
+        $crawler = $this->client->request('GET', $this->getUrl('oro_bts_issue_add_subtask', array('id' => $id)));
         /** @var Form $form */
         $form = $crawler->selectButton('Save and Close')->form();
         $form['oro_btsbundle_issue_form[priority]']    = (string)$priority->getId();
@@ -213,10 +203,7 @@ class IssueControllerTest extends WebTestCase
         $this->assertContains('Issue saved', $crawler->html());
 
         /*Get subtask id*/
-        $crawler = $this->client->request(
-            'GET',
-            $this->getUrl('oro_bts_issue_view', array('id' => $id))
-        );
+        $crawler = $this->client->request('GET', $this->getUrl('oro_bts_issue_view', array('id' => $id)));
 
         $response = $this->client->requestGrid(
             'issue_grid',
@@ -224,58 +211,35 @@ class IssueControllerTest extends WebTestCase
                 'issue_grid[_filter][summary][value]' => 'Subtask_summary',
             )
         );
-
         $result = $this->getJsonResponseContent($response, 200);
         $result = reset($result['data']);
-
         $subtaskId = $result['id'];
-
         /*Get story view page*/
-        $crawler = $this->client->request(
-            'GET',
-            $this->getUrl('oro_bts_issue_view', array('id' => $id))
-        );
+        $crawler = $this->client->request('GET', $this->getUrl('oro_bts_issue_view', array('id' => $id)));
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertRegExp("/<h4 class=\"scrollspy-title\">Subtasks<\/h4>/", $crawler->html());
         $this->assertRegExp("/Oro-". $subtaskId."/", $crawler->html());
-
         /*Delete subtask*/
         $this->closeIssue($subtaskId);
 
-        $this->client->request(
-            'DELETE',
-            $this->getUrl('oro_bts_api_delete_issue', array('id' => $subtaskId))
-        );
-
+        $this->client->request('DELETE', $this->getUrl('oro_bts_api_delete_issue', array('id' => $subtaskId)));
         $result = $this->client->getResponse();
         $this->assertEmptyResponseStatusCodeEquals($result, 204);
 
-        $this->client->request(
-            'GET',
-            $this->getUrl('oro_bts_issue_view', array('id' => $subtaskId))
-        );
-
+        $this->client->request('GET', $this->getUrl('oro_bts_issue_view', array('id' => $subtaskId)));
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 404);
 
         /*Delete story*/
         $this->closeIssue($id);
 
-        $this->client->request(
-            'DELETE',
-            $this->getUrl('oro_bts_api_delete_issue', array('id' => $id))
-        );
-
+        $this->client->request('DELETE', $this->getUrl('oro_bts_api_delete_issue', array('id' => $id)));
         $result = $this->client->getResponse();
         $this->assertEmptyResponseStatusCodeEquals($result, 204);
 
-        $this->client->request(
-            'GET',
-            $this->getUrl('oro_bts_issue_view', array('id' => $id))
-        );
-
+        $this->client->request('GET', $this->getUrl('oro_bts_issue_view', array('id' => $id)));
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 404);
     }
