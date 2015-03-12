@@ -189,4 +189,14 @@ class IssueController extends Controller
 
         return $widgetAttr;
     }
+
+    /**
+     * @Route("/user/{userId}", name="oro_bts_issue_user_issues", requirements={"userId"="\d+"})
+     * @AclAncestor("oro_bts_issue_view")
+     * @Template()
+     */
+    public function userIssuesAction($userId)
+    {
+        return ['userId' => $userId];
+    }
 }
