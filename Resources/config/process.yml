@@ -1,27 +1,13 @@
 definitions:
-    resolve_issue_create:
-        label: 'Set issue reporter and collaborators'
-        enabled: true
-        entity:  Oro\Bundle\BtsBundle\Entity\Issue
-        actions_configuration:
-            - @assign_active_user:
-                condition:
-                    @blank: $reporter
-                parameters:
-                    attribute: $.data.reporter
-            - @call_method:
-                object: $.data
-                method: addCollaborator
-                method_parameters: [$reporter]
-            - @call_method:
-                object: $.data
-                method: addCollaborator
-                method_parameters: [$owner]
     resolve_issue_update:
         label: 'Set issue collaborators'
         enabled: true
         entity:  Oro\Bundle\BtsBundle\Entity\Issue
         actions_configuration:
+            - @call_method:
+                object: $.data
+                method: addCollaborator
+                method_parameters: [$reporter]
             - @call_method:
                 object: $.data
                 method: addCollaborator
@@ -53,8 +39,6 @@ triggers:
         -
             event:  create
             queued: false
-
-    resolve_issue_update:
         -
             event:  update
             field:  owner
