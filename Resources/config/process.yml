@@ -5,6 +5,8 @@ definitions:
         entity:  Oro\Bundle\BtsBundle\Entity\Issue
         actions_configuration:
             - @assign_active_user:
+                condition:
+                    @blank: $reporter
                 parameters:
                     attribute: $.data.reporter
             - @call_method:
