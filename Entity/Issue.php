@@ -44,6 +44,9 @@ use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
  *          "workflow"={
  *              "active_workflow"="oro_bts_issue_flow",
  *              "show_step_in_grid"=false
+ *          },
+ *          "grouping"={
+ *              "groups"={"activity"}
  *          }
  *      }
  * )
