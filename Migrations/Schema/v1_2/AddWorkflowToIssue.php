@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\BtsBundle\Migrations\Schema\v1_0;
+namespace Oro\Bundle\BtsBundle\Migrations\Schema\v1_2;
 
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
@@ -9,7 +9,7 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 /**
  * @codeCoverageIgnore
  */
-class OroBtsBundle implements Migration
+class AddWorkflowToIssue implements Migration
 {
     /**
      * @inheritdoc
