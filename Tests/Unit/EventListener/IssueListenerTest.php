@@ -3,8 +3,6 @@
 namespace Oro\Bundle\BtsBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\BtsBundle\Entity\Issue;
-use Oro\Bundle\BtsBundle\Entity\User;
-use Oro\Bundle\BtsBundle\EventListener\IssueListener;
 
 class IssueListenerTest extends \PHPUnit_Framework_TestCase
 {
