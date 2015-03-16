@@ -2,6 +2,7 @@ parameters:
     oro_bts.issue.entity.class:               Oro\Bundle\BtsBundle\Entity\Issue
     oro_bts.issue.form.type.class:            Oro\Bundle\BtsBundle\Form\Type\IssueType
     oro_bts.issue.form.handler.class:         Oro\Bundle\BtsBundle\Form\Handler\IssueHandler
+    oro_bts.issue.listener.class:         Oro\Bundle\BtsBundle\EventListener\IssueListener
 
     oro_bts.issue.priority.entity.class:      Oro\Bundle\BtsBundle\Entity\IssuePriority
     oro_bts.issue.resolution.entity.class:    Oro\Bundle\BtsBundle\Entity\IssueResolution
@@ -79,3 +80,9 @@ services:
     oro_bts_soap.handler.delete:
         class: %oro_bts_soap.handler.delete.class%
         parent: oro_bts_soap.handler.delete.abstract
+
+    oro_bts_issue.listener:
+        class: %oro_bts.issue.listener.class%
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+        arguments: ["@service_container"]

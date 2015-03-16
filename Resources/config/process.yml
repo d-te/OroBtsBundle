@@ -35,7 +35,7 @@ definitions:
                 method_parameters: [$owner]
 
 triggers:
-    resolve_issue_create:
+    resolve_issue_update:
         -
             event:  create
             queued: false
